@@ -1,0 +1,254 @@
+# =============================================================================
+# IPS Review — Coding Dictionary (version 1.0)
+# =============================================================================
+#
+# This file is the SINGLE SOURCE OF TRUTH for every classification rule used
+# in the 25-Years IPS Systematic Review pipeline. Every regex below was
+# drafted with LLM assistance (Anthropic Claude, OpenAI ChatGPT) and then
+# AUTHORED, EDITED, AND APPROVED BY THE HUMAN AUTHORS.
+#
+# No record-level LLM inference is performed by the pipeline. Every label
+# applied to the 27,720-record corpus is the deterministic output of the
+# patterns in this file applied to (Title + Abstract + Author_Keywords).
+#
+# Versioning policy: any change to a regex below MUST bump the dictionary
+# version (see `version` field) and be recorded in CHANGELOG.md with the
+# rationale and the impact on the I-Core / I-Context / E-Exclude counts.
+#
+# All patterns are matched case-insensitively against the lowercased
+# concatenation `Title + " " + Abstract + " " + Author_Keywords`.
+# =============================================================================
+
+version: "1.0"
+released: "2026-05-05"
+authors: ["Ahmed Mansour"]
+case_sensitive: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 3a — Non-scholarly document types
+# ─────────────────────────────────────────────────────────────────────────────
+non_scholarly_document_types:
+  - "Erratum"
+  - "Retracted"
+  - "Editorial"
+  - "Letter"
+  - "Short survey"
+  - "Note"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 3b — Out-of-scope safeguard categories
+#
+# Each category has TWO regexes:
+#   exclude   — pattern that marks the record as out-of-scope
+#   safeguard — pattern that RESCUES the record back into screening if it
+#               also mentions IPS-relevant terminology (prevents false
+#               exclusion of IPS papers that share vocabulary with the
+#               out-of-scope domain).
+# A record is excluded ONLY if it matches `exclude` AND does NOT match
+# `safeguard`.
+# ─────────────────────────────────────────────────────────────────────────────
+safeguard_categories:
+
+  robotics_slam:
+    rationale: >
+      Pure robotics SLAM and autonomous navigation papers are out of scope,
+      but many indoor-localization papers use SLAM for pedestrian tracking
+      or floor mapping — these must be rescued.
+    exclude: |
+      \brobot\w*\b.*\bslam\b|\bslam\b.*\brobot\w*\b|
+      \bautonomous\s*navigation\b|\bmobile\s*robot\s*map\w*\b|
+      \brobotic\s*exploration\b|\boccupancy\s*grid\b
+    safeguard: |
+      indoor positioning|indoor localization|indoor localisation|
+      indoor navigation|floor\s*detect|building\s*ident|seamless|
+      pedestrian\s*locali[sz]|fingerprint|radio\s*map|
+      wi-?fi|bluetooth|ble\b|uwb\b|beacon
+
+  outdoor_gnss:
+    rationale: >
+      Outdoor-only GNSS/GPS work is out of scope, except seamless
+      indoor-outdoor and transition papers.
+    exclude: |
+      \bgnss\b|\bgps\b|\bsatellite\s*navigation\b|
+      \bglobal\s*navigation\b|\boutdoor\s*position\w*\b|
+      \boutdoor\s*locali[sz]\w*\b|\boutdoor\s*navigation\b
+    safeguard: |
+      indoor|seamless|hybrid\s*indoor|indoor.{0,20}outdoor|transition
+
+  channel_propagation:
+    rationale: >
+      Pure channel modeling / PHY-layer / beamforming work is out of scope
+      unless it is explicitly tied to positioning, ranging, or fingerprinting.
+    exclude: |
+      \bchannel\s*model\w*\b|\bchannel\s*estimat\w*\b|
+      \bpropagation\s*model\w*\b|\bpath\s*loss\s*model\w*\b|
+      \bray\s*tracing\b|\bchannel\s*character\w*\b|
+      \bphy[\s-]?layer\b|\bphysical\s*layer\b|
+      \bbeamform\w*\b|\bmimo\s*channel\b
+    safeguard: |
+      position\w*|locali[sz]\w*|ranging|distance\s*estim|
+      location\s*estim|fingerprint|indoor
+
+  place_scene_recognition:
+    rationale: >
+      Place / scene recognition and image retrieval are computer-vision
+      tasks distinct from indoor positioning unless they explicitly produce
+      a position.
+    exclude: |
+      \bplace\s*recognition\b|\bscene\s*recognition\b|
+      \bimage\s*retrieval\b|\bvisual\s*search\b|
+      \bobject\s*detect\w*\b|\bobject\s*recogn\w*\b
+    safeguard: |
+      position\w*|locali[sz]\w*|indoor|navigation|location\s*estim
+
+  activity_recognition:
+    rationale: >
+      Human activity, gesture, fall, and emotion recognition are distinct
+      tasks unless they are coupled with positioning/tracking.
+    exclude: |
+      \bactivity\s*recogn\w*\b|\bhuman\s*activity\b|
+      \bgesture\s*recogn\w*\b|\bfall\s*detect\w*\b|
+      \baction\s*recogn\w*\b|\bemotion\s*recogn\w*\b
+    safeguard: |
+      position\w*|locali[sz]\w*|indoor|location|tracking|navigation
+
+  networking_comms:
+    rationale: >
+      Networking / throughput / scheduling work is out of scope unless it
+      addresses a positioning aspect.
+    exclude: |
+      \bnetwork\s*throughput\b|\bspectral\s*efficien\w*\b|
+      \bnetwork\s*slicing\b|\bhandover\b|\bhandoff\b|
+      \bresource\s*allocat\w*\b|\bscheduling\b|
+      \bcognitive\s*radio\b|\binterference\s*manage\w*\b|
+      \bpower\s*control\b.*\bnetwork
+    safeguard: |
+      position\w*|locali[sz]\w*|location|indoor|ranging
+
+  outdoor_tracking:
+    rationale: >
+      Vehicle / traffic / autonomous driving tracking is out of scope
+      except for indoor parking / underground / seamless cases.
+    exclude: |
+      \bvehicle\s*track\w*\b|\btraffic\s*monitor\w*\b|
+      \bautonomous\s*driv\w*\b|\bself[\s-]?driving\b|
+      \buav\s*track\w*\b.*\boutdoor
+    safeguard: |
+      indoor|parking|garage|underground|seamless|transition
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 3c — I-Core: strong, direct IPS indicators
+# ─────────────────────────────────────────────────────────────────────────────
+i_core_patterns:
+  - "indoor positioning|indoor localization|indoor localisation|indoor locating|indoor location system"
+  - "indoor navigation.{0,30}(position|locali[sz])"
+  - "indoor tracking.{0,30}(position|locali[sz])"
+  - "\\bips\\b.{0,20}(indoor|position|locali[sz])"
+  - "fingerprint\\w*.{0,30}(indoor|position|locali[sz]|wi-?fi|rssi|csi|ble|bluetooth)"
+  - "\\bradio\\s*map\\b|\\bsite\\s*survey\\b"
+  - "\\bfloor\\s*(detect|classif|locali[sz]|estim|identif)\\w*\\b"
+  - "\\bbuilding\\s*(detect|classif|identif)\\w*\\b"
+  - "seamless.{0,20}(indoor|outdoor|position|locali[sz]|navigation)"
+  - "\\b(uwb|ultra[\\s-]?wide[\\s-]?band)\\b.{0,30}(position|locali[sz]|ranging|location)"
+  - "\\b(rssi|rss|csi)\\b.{0,30}(position|locali[sz]|fingerprint|location)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 3d — I-Context: IPS-enabling indicators (broader)
+# ─────────────────────────────────────────────────────────────────────────────
+i_context_patterns:
+  - "(?:\\bwi-?fi\\b|\\bwlan\\b|\\bbluetooth\\b|\\bble\\b|\\bbeacon\\b|\\bibeacon\\b|\\buwb\\b|\\brfid\\b|\\blidar\\b|\\bcamera\\b|\\bvision\\b|\\bvisual\\b|\\bmagnetic\\b|\\bgeomagn\\w*\\b|\\bbarometer\\b|\\bvlc\\b|\\bvisible\\s*light\\b|\\b5g\\b|\\bmmwave\\b|\\blora\\b|\\bzigbee\\b|\\bacoustic\\b|\\bultrasonic\\b|\\binfrared\\b|\\bradar\\b|\\bfmcw\\b).{0,80}(?:position\\w*|locali[sz]\\w*|navigation|location\\s*estim|tracking|ranging)"
+  - "(?:position\\w*|locali[sz]\\w*|navigation|location\\s*estim|tracking).{0,80}(?:\\bwi-?fi\\b|\\bwlan\\b|\\bbluetooth\\b|\\bble\\b|\\buwb\\b|\\brfid\\b|\\blidar\\b|\\bcamera\\b|\\bvision\\b|\\bmagnetic\\b|\\bbarometer\\b|\\bvlc\\b|\\b5g\\b|\\bmmwave\\b|\\blora\\b|\\bacoustic\\b|\\bradar\\b)"
+  - "(?:\\bimu\\b|\\binertial\\b|\\bpedestrian\\s*dead\\s*reckon\\w*\\b|\\bpdr\\b|\\baccelerom\\w*\\b|\\bgyroscop\\w*\\b).{0,60}(?:position\\w*|locali[sz]\\w*|navigation|indoor)"
+  - "\\bslam\\b.{0,60}(?:indoor|locali[sz]\\w*|navigation|position\\w*)"
+  - "(?:indoor|locali[sz]\\w*|navigation|position\\w*).{0,60}\\bslam\\b"
+  - "\\bfingerprint\\w*\\b"
+  - "\\bradio\\s*map\\b|\\bsite\\s*survey\\b|\\bmap\\s*match\\w*\\b|\\bfloor\\s*plan\\b"
+  - "\\bcrowdsourc\\w*\\b.{0,60}(?:locali[sz]\\w*|position\\w*|indoor|fingerprint|radio\\s*map)"
+  - "(?:\\bbenchmark\\b|\\bdataset\\b|\\bdata\\s*set\\b|\\bevaluation\\s*framework\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor)"
+  - "(?:\\bprivacy\\b|\\bsecure\\b|\\bsecurity\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor|location)"
+  - "(?:\\bfusion\\b|\\bmultimodal\\b|\\bmulti[\\s-]?sensor\\b|\\bhybrid\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor|navigation)"
+  - "(?:\\bdeployment\\b|\\bcalibrat\\w*\\b|\\bmaintenance\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor)"
+  - "(?:\\bsemantic\\b|\\bcontext[\\s-]?aware\\b).{0,60}(?:locali[sz]\\w*|position\\w*|navigation|indoor)"
+  - "(?:\\bmachine\\s*learn\\w*\\b|\\bdeep\\s*learn\\w*\\b|\\bneural\\s*network\\b|\\bcnn\\b|\\blstm\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor|fingerprint)"
+  - "\\bindoor\\b.{0,40}(?:position\\w*|locali[sz]\\w*|navigation|tracking|location|mapping|sensing|monitor\\w*)"
+  - "\\btrilater\\w*\\b|\\btriangul\\w*\\b|\\branging\\b.{0,40}(?:position\\w*|locali[sz]\\w*|indoor)"
+  - "(?:\\bpath\\s*loss\\b|\\bchannel\\b|\\bpropagation\\b).{0,60}(?:position\\w*|locali[sz]\\w*|indoor|fingerprint|location\\s*estim)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 4 — Priority tiers (T1 / T2 / T3)
+# ─────────────────────────────────────────────────────────────────────────────
+priority_tiers:
+  t1:
+    description: "High-impact: reviews, surveys, benchmarks, datasets, evaluation frameworks, or >=100 citations."
+    keyword_pattern: "\\bsurvey\\b|\\breview\\b|\\bbenchmark\\b|\\bdataset\\b|\\bdata\\s*paper\\b|\\bevaluation\\s*framework\\b|\\bcompetition\\b"
+    citation_threshold: 100
+    document_types: ["Review"]
+    document_types_exclude: ["Conference review"]
+  t2:
+    description: "Substantive: journal articles or >=20 citations."
+    citation_threshold: 20
+    document_types: ["Article", "J", "Non-Conference"]
+  t3:
+    description: "Remaining retained records (conference papers below T2 threshold)."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 5 — Section IV.1: Sensing source labels (multi-label)
+# ─────────────────────────────────────────────────────────────────────────────
+sensing_sources:
+  Wi-Fi:       "\\bwi-?fi\\b|\\bwlan\\b|\\brssi\\b|\\bcsi\\b|\\baccess\\s*point\\b|\\b802\\.11\\b|\\bftm\\b|\\bwifi\\b"
+  BLE:         "\\bble\\b|\\bbluetooth\\b|\\bbeacon\\b|\\bibeacon\\b"
+  UWB:         "\\buwb\\b|\\bultra[\\s-]?wide[\\s-]?band\\b"
+  RFID:        "\\brfid\\b|\\bradio\\s*freq\\w*\\s*ident\\w*\\b"
+  Cellular_5G: "\\b5g\\b|\\b4g\\b|\\blte\\b|\\bcellular\\b|\\bmmwave\\b|\\b6g\\b|\\bnr\\s*position\\w*\\b|\\bnew\\s*radio\\b"
+  IMU_PDR:     "\\bimu\\b|\\binertial\\b|\\bpdr\\b|\\bpedestrian\\s*dead\\s*reckon\\w*\\b|\\baccelerom\\w*\\b|\\bgyroscop\\w*\\b|\\bstep\\s*detect\\w*\\b|\\bstep\\s*count\\w*\\b"
+  Magnetic:    "\\bmagnetic\\b|\\bgeomagn\\w*\\b|\\bmagnet\\w*\\s*field\\b"
+  Vision:      "\\bcamera\\b|\\bvision\\b|\\bvisual\\b|\\bimage\\b.{0,30}\\blocali[sz]\\w*\\b|\\bvisual\\s*odometry\\b"
+  LiDAR:       "\\blidar\\b|\\blaser\\s*scan\\w*\\b|\\bpoint\\s*cloud\\b"
+  VLC:         "\\bvlc\\b|\\bvisible\\s*light\\b|\\bled\\s*position\\w*\\b"
+  Acoustic:    "\\bacoustic\\b|\\bultrasonic\\b|\\bultrasound\\b|\\bsound\\s*source\\b"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 5 — Section IV.2: Localization paradigms
+# ─────────────────────────────────────────────────────────────────────────────
+paradigms:
+  Fingerprinting: "\\bfingerprint\\w*\\b|\\bradio\\s*map\\b|\\bsite\\s*survey\\b"
+  ToA_TDoA:       "\\btoa\\b|\\btime\\s*of\\s*arrival\\b|\\btdoa\\b|\\btime\\s*difference\\s*of\\s*arrival\\b"
+  AoA:            "\\baoa\\b|\\bangle\\s*of\\s*arrival\\b"
+  RSSI_Ranging:   "\\brssi\\b.{0,30}\\branging\\b|\\bpath\\s*loss\\b.{0,30}\\branging\\b"
+  PDR_Inertial:   "\\bpdr\\b|\\bpedestrian\\s*dead\\s*reckon\\w*\\b|\\binertial\\s*navigation\\b"
+  SLAM:           "\\bslam\\b"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 5 — Section IV.7: Deployment-readiness indicators
+# ─────────────────────────────────────────────────────────────────────────────
+deployment_indicators:
+  RealWorld:      "\\breal[\\s-]?world\\b|\\bin[\\s-]?the[\\s-]?wild\\b|\\bfield\\s*trial\\b|\\bpilot\\s*deployment\\b"
+  MultiBuilding:  "\\bmulti[\\s-]?building\\b|\\bmulti[\\s-]?floor\\b|\\bcampus[\\s-]?wide\\b"
+  LongTerm:       "\\blong[\\s-]?term\\b|\\btemporal\\s*stab\\w*\\b|\\bdrift\\b.{0,30}\\bover\\s*time\\b"
+  Calibration:    "\\bcalibrat\\w*\\b|\\bauto[\\s-]?calibrat\\w*\\b|\\bself[\\s-]?calibrat\\w*\\b"
+  Maintenance:    "\\bmaintenance\\b|\\bradio\\s*map\\s*update\\b|\\bre[\\s-]?survey\\b"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 5 — Section III: Era taxonomy (year-based)
+# ─────────────────────────────────────────────────────────────────────────────
+eras:
+  Era1:
+    label: "Foundations"
+    year_min: null
+    year_max: 2008
+    theme_pattern: "\\binfrastructure\\b|\\bgeometry\\b|\\btoa\\b|\\btdoa\\b|\\baoa\\b|\\brfid\\b|\\bultrasonic\\b|\\binfrared\\b|\\bactive\\s*badge\\b|\\bcricket\\b|\\bradar\\b|\\bpropagation\\s*model\\b"
+  Era2:
+    label: "Smartphone Fingerprinting"
+    year_min: 2008
+    year_max: 2014
+    theme_pattern: "\\bfingerprint\\w*\\b|\\bsmartphone\\b|\\bandroid\\b|\\biphone\\b|\\bcrowdsourc\\w*\\b|\\bwi-?fi\\b|\\bwlan\\b|\\bknn\\b|\\bk[\\s-]?nearest\\b"
+  Era3:
+    label: "Multimodal Fusion"
+    year_min: 2014
+    year_max: 2019
+    theme_pattern: "\\bfusion\\b|\\bmultimodal\\b|\\bmulti[\\s-]?sensor\\b|\\bhybrid\\b|\\bcross[\\s-]?platform\\b|\\bble\\b|\\bbluetooth\\b|\\buwb\\b|\\bcsi\\b|\\bchannel\\s*state\\b"
+  Era4:
+    label: "Deep Learning & Deployment"
+    year_min: 2019
+    year_max: null
+    theme_pattern: "\\bdeep\\s*learn\\w*\\b|\\bneural\\s*network\\b|\\bcnn\\b|\\blstm\\b|\\btransformer\\b|\\bbenchmark\\b|\\bdataset\\b|\\bdeployment\\b|\\btransfer\\s*learn\\w*\\b|\\bfederat\\w*\\b|\\bprivacy\\b|\\bself[\\s-]?supervised\\b|\\bgraph\\s*neural\\b"

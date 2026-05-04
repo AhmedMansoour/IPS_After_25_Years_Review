@@ -1,0 +1,28 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: [--maxkb=51200]
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: local
+    hooks:
+      - id: dictionary-syntax
+        name: Validate coding dictionary YAML compiles
+        entry: python -c "from ips_review.config import load_dictionary; load_dictionary('config/coding_dictionary.v1.0.yaml')"
+        language: system
+        files: ^config/coding_dictionary\..*\.yaml$
+        pass_filenames: false

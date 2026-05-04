@@ -1,0 +1,7 @@
+Source,Title,Authors,Year,DOI,Abstract,Document_Type,Source_Title,Author_Keywords,Cited_By,EID,Affiliations,Link,expected_group
+Scopus,"WiFi indoor positioning with CNN","Smith J","2020","10.1000/abc","Abstract A","Article","Sensors","wifi;cnn","10","2-s2.0-1","","",g1
+WoS,"WiFi Indoor Positioning with CNN","Smith J","2020","10.1000/abc","Abstract A","Article","Sensors","wifi;cnn","10","","","https://doi.org/10.1000/abc",g1
+IEEE,"Wifi  indoor positioning   with cnn!","J. Smith","2020","10.1000/abc","Abstract A","Article","IEEE Sensors","wifi","10","","","",g1
+Scopus,"BLE asset tracking","Doe A","2021","10.1000/def","Abstract B","Article","TMC","ble","5","2-s2.0-2","","",g2
+WoS,"BLE Asset Tracking","Doe A","2021","","Abstract B","Article","TMC","ble","5","","","",g2
+IEEE,"Different paper title","X","2021","10.1000/ghi","Abstract C","Article","ICC","ble","2","","","",g3

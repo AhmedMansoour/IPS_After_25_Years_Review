@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "IPS Review Reproducibility Package"
+message: "If you use this software, please cite both this artifact and the associated paper."
+type: software
+version: "1.0.0"
+date-released: "2026-05-05"
+license: MIT
+repository-code: "https://github.com/AhmedMansoour/IPS_After_25_Years_Review"
+url: "https://github.com/AhmedMansoour/IPS_After_25_Years_Review"
+doi: "10.5281/zenodo.XXXXXXX"
+keywords:
+  - indoor-positioning
+  - systematic-review
+  - reproducibility
+  - bibliometrics
+  - meta-research
+authors:
+  - family-names: "Mansour"
+    given-names: "Ahmed"
+    affiliation: "Cairo University"
+preferred-citation:
+  type: article
+  title: "Indoor Positioning Systems After 25 Years: A Survey of Wireless, Mobile, and Networked Localization from Accuracy to Deployment Readiness"
+  authors:
+    - family-names: "Mansour"
+      given-names: "Ahmed"
+  journal: "IEEE Communications Surveys & Tutorials"
+  year: 2026
+  notes: "Under review"

@@ -1,0 +1,35 @@
+# Default pipeline paths and runtime options.
+# Override on the command line with --input / --output / --dictionary etc.
+
+paths:
+  raw:
+    scopus: "data/raw/scopus"
+    wos:    "data/raw/wos"
+    ieee:   "data/raw/ieee"
+  interim:
+    harmonized: "data/interim/harmonized.csv"
+    unique:     "data/interim/unique_corpus.csv"
+  processed:
+    screened:        "data/processed/corpus_screened.csv"
+    section_mapping: "data/processed/section_mapping.csv"
+  validation:
+    sample:  "data/validation/sample_v1.0.csv"
+    report:  "outputs/reports/validation_report.md"
+  outputs:
+    figures: "outputs/figures"
+    tables:  "outputs/tables"
+    reports: "outputs/reports"
+
+dictionary: "config/coding_dictionary.v1.0.yaml"
+source_mapping: "config/source_mapping.yaml"
+
+runtime:
+  encoding: "utf-8-sig"
+  log_level: "INFO"
+  random_seed: 20260505
+  write_provenance_header: true
+
+validation:
+  default_sample_size: 400
+  default_strata: ["Screen_Label", "Sec_III_Era"]
+  agreement_metric: "cohen_kappa"

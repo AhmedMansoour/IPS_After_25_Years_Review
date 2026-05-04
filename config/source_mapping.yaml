@@ -1,0 +1,76 @@
+# Source-to-unified-schema column mapping.
+# Used by ips_review.harmonize.
+
+unified_schema:
+  - Source
+  - Title
+  - Authors
+  - Year
+  - DOI
+  - Abstract
+  - Document_Type
+  - Source_Title
+  - Author_Keywords
+  - Cited_By
+  - EID
+  - Affiliations
+  - Link
+
+scopus:
+  loader: csv
+  glob: "scopus_*.csv"
+  columns:
+    Title:           "Title"
+    Authors:         "Authors"
+    Year:            "Year"
+    DOI:             "DOI"
+    Abstract:        "Abstract"
+    Document_Type:   "Document Type"
+    Source_Title:    "Source title"
+    Author_Keywords: "Author Keywords"
+    Cited_By:        "Cited by"
+    EID:             "EID"
+    Affiliations:    "Affiliations"
+    Link:            "Link"
+  internal_dedup_key: "EID"
+  source_priority: 0   # highest priority for representative selection
+
+wos:
+  loader: xls
+  glob: "savedrecs*.xls"
+  columns:
+    Title:           "Article Title"
+    Authors:         "Authors"
+    Year:            "Publication Year"
+    DOI:             "DOI"
+    Abstract:        "Abstract"
+    Document_Type:   "Publication Type"
+    Source_Title:    "Source Title"
+    Author_Keywords: "Author Keywords"
+    Cited_By:        "Times Cited, All Databases"
+    EID:             null
+    Affiliations:    "Addresses"
+    Link:            null   # constructed from DOI as https://doi.org/{DOI}
+  source_priority: 1
+
+ieee:
+  loader: csv
+  glob: "*.csv"
+  document_type_from_filename:
+    prefix_conf: "Conference"
+    default: "Non-Conference"
+  columns:
+    Title:           "Document Title"
+    Authors:         "Authors"
+    Year:            "Publication Year"
+    DOI:             "DOI"
+    Abstract:        "Abstract"
+    Document_Type:   "_IEEE_DocType"   # synthesized from filename
+    Source_Title:    "Publication Title"
+    Author_Keywords: "Author Keywords"  # falls back to "IEEE Terms" if empty
+    Author_Keywords_fallback: "IEEE Terms"
+    Cited_By:        "Article Citation Count"
+    EID:             null
+    Affiliations:    "Author Affiliations"
+    Link:            "PDF Link"
+  source_priority: 2

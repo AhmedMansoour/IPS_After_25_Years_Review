@@ -1,0 +1,32 @@
+name: Verify reproducibility
+
+on:
+  schedule:
+    # Re-run on the 1st of each month at 04:17 UTC to catch dependency drift
+    - cron: "17 4 1 * *"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: End-to-end smoke test on synthetic corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: |
+          pip install -e ".[dev]"
+      - name: Generate synthetic corpus
+        run: |
+          python scripts/generate_synthetic_corpus.py --n 200 --out data/raw_synthetic
+      - name: Run pipeline on synthetic corpus
+        run: |
+          ips-review harmonize  --scopus-dir data/raw_synthetic/scopus --output data/interim/syn_h.csv
+          ips-review dedup      --input data/interim/syn_h.csv          --output data/interim/syn_u.csv
+          ips-review screen     --input data/interim/syn_u.csv  --dictionary config/coding_dictionary.v1.0.yaml --output data/processed/syn_s.csv
+          ips-review classify   --input data/processed/syn_s.csv --dictionary config/coding_dictionary.v1.0.yaml --output data/processed/syn_c.csv
+      - name: Sanity-check outputs
+        run: |
+          test -s data/processed/syn_s.csv
+          test -s data/processed/syn_c.csv
+          python -c "import pandas as pd; df = pd.read_csv('data/processed/syn_s.csv', comment='#'); assert df['Screen_Label'].isin(['I-Core','I-Context','E-Exclude']).all()"

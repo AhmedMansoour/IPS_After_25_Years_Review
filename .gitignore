@@ -1,0 +1,64 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_meta
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Raw bibliographic exports — bundled in this repo for reproducibility.
+# Users should review Scopus/WoS/IEEE license terms before redistributing.
+
+# Intermediate outputs are regenerable; gitignored by default
+data/interim/*.csv
+!data/**/.gitkeep
+!data/**/README.md
+
+# Output artifacts (regenerable)
+outputs/figures/*.pdf
+outputs/figures/*.png
+outputs/figures/*.svg
+outputs/tables/*.tex
+outputs/reports/*.html
+outputs/reports/*.md
+
+# Logs
+*.log
+logs/
+
+# Local environment
+.env
+.env.local
