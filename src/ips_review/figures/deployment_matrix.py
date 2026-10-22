@@ -26,7 +26,8 @@ def main() -> None:
                 (bool_df[s_col] & bool_df[d_col]).sum()
             )
 
-    out_dir = Path("outputs/tables"); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path("outputs/tables")
+    out_dir.mkdir(parents=True, exist_ok=True)
     matrix.to_csv(out_dir / "deployment_matrix.csv")
     print(matrix)
     print("Wrote outputs/tables/deployment_matrix.csv")
