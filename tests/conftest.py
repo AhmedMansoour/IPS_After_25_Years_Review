@@ -8,7 +8,6 @@ import pytest
 
 from ips_review.config import load_dictionary
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = Path(__file__).parent / "fixtures"
 

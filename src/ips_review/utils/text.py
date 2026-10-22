@@ -1,8 +1,9 @@
 """Lowercased text normalization shared across screen / classify / validate."""
 from __future__ import annotations
 
-import string
 import re
+import string
+
 import pandas as pd
 
 _PUNCT = str.maketrans("", "", string.punctuation)

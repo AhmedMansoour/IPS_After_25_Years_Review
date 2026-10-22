@@ -24,7 +24,7 @@ def main() -> None:
     tex += ["\\bottomrule", "\\end{tabular}"]
     (out_dir / "era_counts.tex").write_text("\n".join(tex), encoding="utf-8")
     print(counts.to_string())
-    print(f"Wrote outputs/tables/era_counts.tex")
+    print("Wrote outputs/tables/era_counts.tex")
 
     try:
         import matplotlib.pyplot as plt

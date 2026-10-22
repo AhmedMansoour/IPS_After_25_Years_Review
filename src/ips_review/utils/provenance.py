@@ -37,7 +37,7 @@ def provenance_header(
 ) -> str:
     """Return a multi-line `#`-prefixed header for prepending to CSV outputs."""
     lines = [
-        f"# ips_review pipeline output",
+        "# ips_review pipeline output",
         f"# stage: {stage}",
         f"# package_version: {__version__}",
         f"# git_sha: {git_sha()}",
