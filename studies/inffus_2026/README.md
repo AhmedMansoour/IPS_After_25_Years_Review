@@ -4,6 +4,8 @@
 **Search window:** 2000–2025  
 **Current verification level:** manuscript-derived reference targets and table index only.
 
+[Recovered Library source inventory and remaining full-text gaps](docs/SOURCE_RECOVERY_STATUS.md)
+
 ## Package contents
 
 - `data/expected_results.json`: exactly the longitudinal record-flow totals and four era counts stated in the submitted manuscript.
