@@ -198,7 +198,7 @@ def cmd_run_all(args: argparse.Namespace) -> int:
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="ips-review",
-        description="Reproducibility CLI for the 25-Years IPS Systematic Review.",
+        description="Reproducibility CLI for indoor positioning research data.",
     )
     p.add_argument("--version", action="version", version=f"ips-review {__version__}")
     p.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR"])
