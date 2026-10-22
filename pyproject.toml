@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ips-review"
 version = "1.0.0"
-description = "Reproducibility package for the 25-Years IPS Systematic Review"
+description = "Reproducibility tools for indoor positioning and spatial intelligence research"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

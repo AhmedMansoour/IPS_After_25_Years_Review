@@ -2,7 +2,7 @@
 ips_review
 ==========
 
-Reproducibility package for the 25-Years IPS Systematic Review.
+Reproducibility tools for indoor positioning and spatial intelligence research.
 
 The pipeline is deterministic: every label produced for the corpus is the
 output of regular expressions defined in the YAML coding dictionary applied
