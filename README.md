@@ -1,7 +1,6 @@
 # Indoor Spatial Intelligence Review — Reproducibility Repository
 
 **Manuscript:** *From Indoor Positioning to Indoor Spatial Intelligence: A Field-Evolution Review*  
-**Target journal:** Information Fusion  
 **Status:** under review; public evidence package is being verified.
 
 [Open the dedicated reproducibility package](studies/inffus_2026/README.md) · [Source provenance](studies/inffus_2026/docs/PROVENANCE.md) · [Validity coding](studies/inffus_2026/docs/VALIDITY_CODING.md) · [Licensing and data audit](studies/inffus_2026/docs/LICENSING_AUDIT.md)
