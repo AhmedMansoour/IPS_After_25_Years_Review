@@ -3,11 +3,11 @@ on:
   push:
     paths:
       - "studies/indoor_spatial_intelligence/**"
-      - ".github/workflows/research-manifest.yml"
+      - ".github/workflows/evidence-checks.yml"
   pull_request:
     paths:
       - "studies/indoor_spatial_intelligence/**"
-      - ".github/workflows/research-manifest.yml"
+      - ".github/workflows/evidence-checks.yml"
   workflow_dispatch:
 jobs:
   manifest:
