@@ -41,7 +41,3 @@ Raw vendor database exports are already present in historical repository commits
 ## Citation
 
 Cite the manuscript by its title and author list while it is under review; no journal acceptance or published article DOI is implied. A permanent software archive identifier should be added only once one has actually been issued.
-
-## Scope
-
-This repository's public-facing documentation concerns **only INFFUS-D-26-05291**. The existing generic metadata-processing modules have not been deleted or relabeled as validated INFFUS analysis.
