@@ -1,4 +1,4 @@
-"""Fail-closed, standard-library verification for INFFUS-D-26-05291.
+"""Fail-closed, standard-library verification for the Indoor Spatial Intelligence review.
 
 Manifest: validates manuscript-derived expected values and Appendix index only.
 Empirical: also validates presence and internal consistency of actual research records.
