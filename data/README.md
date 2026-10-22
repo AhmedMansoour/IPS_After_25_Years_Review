@@ -1,55 +1,9 @@
-# `data/` — corpus storage layout
+# Data provenance and redistribution status
 
-This directory stores the corpus at every pipeline stage. **The
-contents are mostly gitignored / LFS-tracked**; running the pipeline
-will populate it.
+The current manuscript-specific source inventory and verification requirements are documented in [the INFFUS package](../studies/inffus_2026/README.md).
 
-## Subdirectories
+## Licensing warning
 
-| Path | Contents | Tracked in git? |
-|---|---|---|
-| `raw/scopus/` | Raw Scopus CSV exports | **No** (license: Elsevier) |
-| `raw/wos/` | Raw Web of Science XLS/XLSX exports | **No** (license: Clarivate) |
-| `raw/ieee/` | Raw IEEE *Xplore* CSV exports | **No** (license: IEEE) |
-| `interim/` | `harmonized.csv`, `unique_corpus.csv` | LFS (regenerable) |
-| `processed/` | `corpus_screened.csv`, `section_mapping.csv` | LFS (regenerable) |
-| `validation/` | Stratified samples + human-coded outputs | LFS or plain (small files) |
+This repository has publicly tracked raw bibliographic export files under `data/raw/scopus/`, `data/raw/wos/`, and `data/raw/ieee/`. Their redistribution permissions are **not established** by the existing code or README. Do not reuse, further publish, or archive these files until rights are checked. See [the disclosure audit](../studies/inffus_2026/docs/LICENSING_AUDIT.md).
 
-## How to obtain the raw exports
-
-We do **not** redistribute the raw bibliographic exports because the
-licenses of Scopus, Web of Science, and IEEE *Xplore* prohibit
-redistribution.
-
-Two options:
-
-1. **Re-run the published queries** in [`docs/search_strategy.md`](../docs/search_strategy.md)
-   on each database. Drop the resulting files into the appropriate
-   `raw/<database>/` directory. Re-running queries today will produce a
-   slightly larger corpus than the snapshot used in the paper because
-   new publications appear continuously.
-
-2. **Download our archived snapshot** from Zenodo
-   (DOI: 10.5281/zenodo.XXXXXXX). The snapshot is the exact set of files
-   used in the published paper, with SHA-256 checksums recorded in
-   `config/expected_hashes.txt`. Note: access to the Zenodo snapshot may
-   be restricted to verified researchers depending on database licenses.
-
-After dropping files into `raw/`, run:
-
-```bash
-make all
-```
-
-## File size expectations
-
-- `raw/scopus/`: ~50–80 MB
-- `raw/wos/`:    ~30–50 MB
-- `raw/ieee/`:   ~40–60 MB
-- `interim/harmonized.csv`: ~150 MB
-- `interim/unique_corpus.csv`: ~110 MB (~27,720 rows)
-- `processed/corpus_screened.csv`: ~115 MB (adds 3 columns)
-- `processed/section_mapping.csv`: ~125 MB (adds ~25 boolean columns)
-
-If you need to commit the processed CSVs, use Git LFS (see
-`.gitattributes`).
+Actual study reproduction requires the original dated, permission-cleared metadata exports and complete screening provenance. The 25,135-record manuscript cohort and the distinct 176-record frontier query must not be confused with other datasets or different source queries. Synthetic or replacement records can test software behavior but cannot authenticate the submitted analysis.

@@ -1,0 +1,41 @@
+{
+  "manuscript_title": "From Indoor Positioning to Indoor Spatial Intelligence: A Field-Evolution Review",
+  "study_range": [
+    2000,
+    2025
+  ],
+  "data_origin": "Transcribed from submitted manuscript; not reproduced",
+  "metadata": {
+    "retrieved": 48955,
+    "duplicates_removed": 21235,
+    "unique": 27720,
+    "excluded": 2585,
+    "retained": 25135
+  },
+  "eras": [
+    {
+      "name": "E1",
+      "start": 2000,
+      "end": 2008,
+      "count": 801
+    },
+    {
+      "name": "E2",
+      "start": 2009,
+      "end": 2014,
+      "count": 3836
+    },
+    {
+      "name": "E3",
+      "start": 2015,
+      "end": 2019,
+      "count": 8379
+    },
+    {
+      "name": "E4",
+      "start": 2020,
+      "end": 2025,
+      "count": 12119
+    }
+  ]
+}
