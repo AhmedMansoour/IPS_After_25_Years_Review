@@ -1,29 +1,23 @@
 cff-version: 1.2.0
-title: "IPS Review Reproducibility Package"
-message: "If you use this software, please cite both this artifact and the associated paper."
+message: "Please cite the associated manuscript and specify the exact repository commit or verified release used."
 type: software
-version: "1.0.0"
-date-released: "2026-05-05"
-license: MIT
-repository-code: "https://github.com/AhmedMansoour/IPS_After_25_Years_Review"
-url: "https://github.com/AhmedMansoour/IPS_After_25_Years_Review"
-doi: "10.5281/zenodo.XXXXXXX"
-keywords:
-  - indoor-positioning
-  - systematic-review
-  - reproducibility
-  - bibliometrics
-  - meta-research
+title: "Indoor Spatial Intelligence Review — Evidence and Reproducibility Package"
 authors:
-  - family-names: "Mansour"
-    given-names: "Ahmed"
-    affiliation: "Cairo University"
-preferred-citation:
-  type: article
-  title: "Indoor Positioning Systems After 25 Years: A Survey of Wireless, Mobile, and Networked Localization from Accuracy to Deployment Readiness"
-  authors:
-    - family-names: "Mansour"
-      given-names: "Ahmed"
-  journal: "IEEE Communications Surveys & Tutorials"
-  year: 2026
-  notes: "Under review"
+  - family-names: Mansour
+    given-names: Ahmed
+  - family-names: Chen
+    given-names: Wu
+  - family-names: Eltoukhy
+    given-names: Abdelraham E. E.
+  - family-names: Adham
+    given-names: Mahmoud
+  - family-names: Wang
+    given-names: Jingxian
+repository-code: "https://github.com/AhmedMansoour/IPS_After_25_Years_Review"
+keywords:
+  - indoor positioning
+  - indoor spatial intelligence
+  - spatial validity
+  - grounded world model
+  - evidence synthesis
+# No DOI or publication metadata is asserted before assignment and acceptance.

@@ -1,0 +1,23 @@
+name: INFFUS manuscript manifest checks
+on:
+  push:
+    paths:
+      - "studies/inffus_2026/**"
+      - ".github/workflows/inffus-manifest.yml"
+  pull_request:
+    paths:
+      - "studies/inffus_2026/**"
+      - ".github/workflows/inffus-manifest.yml"
+  workflow_dispatch:
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check manuscript-derived reference targets (not empirical reproduction)
+        run: python studies/inffus_2026/scripts/verify.py --mode manifest
+      - name: Run INFFUS verification unit tests
+        run: python -m unittest discover -s studies/inffus_2026/tests -v
