@@ -21,6 +21,10 @@ The submitted manuscript uses a two-part evidence design: metadata analysis of i
 
 **Integrity notice:** Figures above are *transcribed from the submitted manuscript*. The public repository must not be represented as fully reproducing those findings until the original source snapshots, screening decisions, coding records, and scripts have been independently reconciled. Read the [verification status](studies/inffus_2026/README.md).
 
+## Screening-rule versions
+
+The default metadata pipeline uses the frozen `coding_dictionary.v1.0.yaml`. A separately versioned `coding_dictionary.v1.1.yaml` is available for validation of manually labeled examples. Its full-corpus impact has not been established; it must **not** be substituted for the original screening rules when reproducing reported manuscript counts. See the [screening audit](studies/inffus_2026/docs/SCREENING_RULE_AUDIT.md).
+
 ## How to examine the currently available evidence scaffold
 
 ```bash

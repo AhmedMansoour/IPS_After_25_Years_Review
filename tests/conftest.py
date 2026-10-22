@@ -14,6 +14,13 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 @pytest.fixture(scope="session")
 def dictionary():
+    """Candidate rules for independently tested hand-labeled examples."""
+    return load_dictionary(REPO_ROOT / "config" / "coding_dictionary.v1.1.yaml")
+
+
+@pytest.fixture(scope="session")
+def legacy_dictionary():
+    """Frozen historical v1.0 rules used by the default pipeline."""
     return load_dictionary(REPO_ROOT / "config" / "coding_dictionary.v1.0.yaml")
 
 

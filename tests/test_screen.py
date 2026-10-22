@@ -7,7 +7,7 @@ from ips_review.screen import screen
 
 
 def test_dictionary_loads(dictionary):
-    assert dictionary.version == "1.0"
+    assert dictionary.version == "1.1"
     assert dictionary.i_core is not None
     assert dictionary.i_context is not None
     assert len(dictionary.safeguard_categories) == 7
@@ -31,6 +31,53 @@ def test_golden_papers_label(dictionary, golden_papers):
         )
         raise AssertionError(f"{len(mismatches)} golden papers misclassified:\n{msg}")
 
+
+
+
+def test_original_dictionary_is_preserved(legacy_dictionary, golden_papers):
+    """Document known v1.0 disagreement without silently relabeling source records."""
+    assert legacy_dictionary.version == "1.0"
+    out = screen(golden_papers, legacy_dictionary)
+    expected_old = {
+        "10.1000/test4": "I-Context",
+        "10.1000/test7": "I-Context",
+        "10.1000/test8": "I-Context",
+        "10.1000/test13": "I-Context",
+        "10.1000/test16": "I-Context",
+    }
+    for doi, expected in expected_old.items():
+        assert out.loc[out["DOI"] == doi, "Screen_Label"].iloc[0] == expected
+    assert (out["Screen_Label"].reset_index(drop=True) !=
+            golden_papers["expected_label"].reset_index(drop=True)).sum() == 5
+
+
+def test_activity_recognition_without_positioning_stays_excluded(dictionary):
+    """A negative positioning mention must not rescue a stand-alone fall detector."""
+    df = pd.DataFrame([{
+        "Title": "Fall detection from wearable inertial data",
+        "Abstract": "A fall detection study with an IMU; no positioning is performed.",
+        "Author_Keywords": "fall detection; inertial",
+        "Document_Type": "Article",
+        "Year": "2022",
+        "Cited_By": "1",
+        "DOI": "10.x/fall-negative",
+    }])
+    result = screen(df, dictionary)
+    assert result.iloc[0]["Screen_Label"] == "E-Exclude"
+
+
+def test_indoor_location_estimation_is_core(dictionary):
+    df = pd.DataFrame([{
+        "Title": "Indoor location estimation with movement context",
+        "Abstract": "A system estimates room-level location with motion sensing.",
+        "Author_Keywords": "indoor location estimation",
+        "Document_Type": "Article",
+        "Year": "2022",
+        "Cited_By": "1",
+        "DOI": "10.x/location-estimation",
+    }])
+    result = screen(df, dictionary)
+    assert result.iloc[0]["Screen_Label"] == "I-Core"
 
 def test_safeguard_rescues_indoor_uwb(dictionary):
     df = pd.DataFrame(

@@ -60,4 +60,4 @@ jobs:
         with: { python-version: "3.11", cache: pip }
       - run: |
           pip install -e .
-          python -c "from ips_review.config import load_dictionary; d = load_dictionary('config/coding_dictionary.v1.0.yaml'); print('Dictionary v' + d.version + ' compiled OK')"
+          python -c "from ips_review.config import load_dictionary; [print('Dictionary v' + load_dictionary('config/coding_dictionary.v' + v + '.yaml').version + ' compiled OK') for v in ('1.0', '1.1')]"
