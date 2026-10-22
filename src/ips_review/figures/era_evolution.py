@@ -17,18 +17,20 @@ def main() -> None:
         raise SystemExit(f"Run the pipeline first; missing {src}")
     df = pd.read_csv(src, comment="#", encoding="utf-8-sig")
     counts = df["Sec_III_Era"].value_counts().reindex(["Era1", "Era2", "Era3", "Era4"]).fillna(0).astype(int)
-    out_dir = Path("outputs/tables"); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path("outputs/tables")
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     tex = ["\\begin{tabular}{lr}", "\\toprule", "Era & Records \\\\", "\\midrule"]
     tex += [f"{e} & {n} \\\\" for e, n in counts.items()]
     tex += ["\\bottomrule", "\\end{tabular}"]
     (out_dir / "era_counts.tex").write_text("\n".join(tex), encoding="utf-8")
     print(counts.to_string())
-    print(f"Wrote outputs/tables/era_counts.tex")
+    print("Wrote outputs/tables/era_counts.tex")
 
     try:
         import matplotlib.pyplot as plt
-        fig_dir = Path("outputs/figures"); fig_dir.mkdir(parents=True, exist_ok=True)
+        fig_dir = Path("outputs/figures")
+        fig_dir.mkdir(parents=True, exist_ok=True)
         fig, ax = plt.subplots(figsize=(6, 3.5))
         ax.bar(counts.index, counts.values)
         ax.set_ylabel("Retained records")

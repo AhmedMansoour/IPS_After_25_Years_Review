@@ -26,12 +26,12 @@ try:
 except PackageNotFoundError:  # editable install w/o metadata
     __version__ = "1.0.0"
 
+from .classify import classify
 from .config import Dictionary, load_dictionary
 from .dedup import deduplicate
 from .harmonize import harmonize
-from .screen import screen
-from .classify import classify
 from .sampling import stratified_sample
+from .screen import screen
 from .validate import ValidationReport, validate
 
 __all__ = [

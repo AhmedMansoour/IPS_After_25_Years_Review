@@ -69,6 +69,35 @@ def test_non_scholarly_excluded(dictionary):
     assert out.iloc[0]["Exclude_Reason"] == "non-scholarly"
 
 
+def test_all_non_scholarly_records_are_handled(dictionary):
+    """An empty screening pool must not crash on nullable-string pandas versions."""
+    df = pd.DataFrame(
+        [
+            {
+                "Title": "Editorial on indoor positioning",
+                "Abstract": "No empirical positioning study.",
+                "Author_Keywords": "indoor positioning",
+                "Document_Type": "Editorial",
+                "Year": "2022",
+                "Cited_By": "0",
+                "DOI": "10.x/editorial-1",
+            },
+            {
+                "Title": "Letter on UWB positioning",
+                "Abstract": "Commentary.",
+                "Author_Keywords": "UWB",
+                "Document_Type": "Letter",
+                "Year": "2022",
+                "Cited_By": "0",
+                "DOI": "10.x/letter-1",
+            },
+        ]
+    )
+    out = screen(df, dictionary)
+    assert out["Screen_Label"].tolist() == ["E-Exclude", "E-Exclude"]
+    assert out["Priority_Tier"].tolist() == ["", ""]
+
+
 def test_priority_tier_review_paper(dictionary):
     df = pd.DataFrame(
         [

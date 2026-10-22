@@ -16,7 +16,8 @@ def main() -> None:
         lambda c: c.replace("Sec_IV_Sensing_", "")
     ).sort_values(ascending=False))
 
-    out_dir = Path("outputs/tables"); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path("outputs/tables")
+    out_dir.mkdir(parents=True, exist_ok=True)
     tex = ["\\begin{tabular}{lr}", "\\toprule", "Sensing modality & Records \\\\", "\\midrule"]
     tex += [f"{m} & {n} \\\\" for m, n in counts.items()]
     tex += ["\\bottomrule", "\\end{tabular}"]

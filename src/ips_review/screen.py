@@ -21,6 +21,9 @@ log = logging.getLogger(__name__)
 
 
 def _apply_priority_tiers(df: pd.DataFrame, dictionary: Dictionary) -> pd.DataFrame:
+    if df.empty:
+        df["Priority_Tier"] = pd.Series(dtype="str")
+        return df
     inc = df["Screen_Label"].isin(["I-Core", "I-Context"])
     cited = pd.to_numeric(df["Cited_By"], errors="coerce").fillna(0).astype(int)
 
@@ -74,6 +77,8 @@ def screen(records: pd.DataFrame, dictionary: Dictionary) -> pd.DataFrame:
     # Step 2
     for cat in dictionary.safeguard_categories:
         pool = df.index[df["Screen_Label"] == ""]
+        if len(pool) == 0:
+            break
         t = df.loc[pool, "_text"]
         excl = t.apply(lambda x, p=cat.exclude: bool(p.search(x))) & ~t.apply(
             lambda x, p=cat.safeguard: bool(p.search(x))
