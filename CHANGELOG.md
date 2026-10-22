@@ -2,7 +2,7 @@
 
 ## Pending: INFFUS evidence and reproducibility alignment
 
-- Refocused public documentation and citation metadata on manuscript INFFUS-D-26-05291.
+- Refocused public documentation and citation metadata on the Indoor Spatial Intelligence review.
 - Added a source-traceability scaffold, manuscript-count manifest, and a 31-study Appendix reference index.
 - Added explicit, fail-closed empirical source verification and CI checks for manuscript-derived data.
 - Replaced misleading output hash-verification behavior with explicit failure on a missing expected-hashes manifest.
