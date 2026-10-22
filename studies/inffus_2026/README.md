@@ -1,4 +1,4 @@
-# INFFUS-D-26-05291: study-specific reproducibility and evidence
+# Indoor Spatial Intelligence: Reproducibility and Evidence
 
 **Paper:** From Indoor Positioning to Indoor Spatial Intelligence: A Field-Evolution Review  
 **Search window:** 2000–2025  
