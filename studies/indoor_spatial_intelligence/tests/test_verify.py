@@ -6,7 +6,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
 SCRIPT = HERE / "scripts/verify.py"
-spec = importlib.util.spec_from_file_location("inffus_verify", SCRIPT)
+spec = importlib.util.spec_from_file_location("research_verify", SCRIPT)
 verify = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(verify)
 

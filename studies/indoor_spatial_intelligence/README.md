@@ -22,18 +22,18 @@
 Python 3.10+ is sufficient; no third-party Python packages are needed.
 
 ```bash
-python studies/inffus_2026/scripts/verify.py --mode manifest
-python -m unittest discover -s studies/inffus_2026/tests -v
+python studies/indoor_spatial_intelligence/scripts/verify.py --mode manifest
+python -m unittest discover -s studies/indoor_spatial_intelligence/tests -v
 ```
 
 Manifest mode checks manuscript-specified arithmetic and the 31-item index. It does not authenticate study claims.
 
 ## Run strict source verification
 
-After the actual original records have been recovered and validated against the submission:
+After the original records have been recovered and independently validated:
 
 ```bash
-python studies/inffus_2026/scripts/verify.py --mode empirical \
+python studies/indoor_spatial_intelligence/scripts/verify.py --mode empirical \
   --metadata PATH/retained_metadata.csv \
   --frontier PATH/frontier_screening.csv \
   --evidence PATH/validated_evidence.csv \
