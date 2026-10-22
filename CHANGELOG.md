@@ -1,6 +1,6 @@
 # Changelog
 
-## Pending: INFFUS evidence and reproducibility alignment
+## Research evidence and reproducibility alignment
 
 - Refocused public documentation and citation metadata on the Indoor Spatial Intelligence review.
 - Added a source-traceability scaffold, manuscript-count manifest, and a 31-study Appendix reference index.
